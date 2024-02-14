@@ -1,0 +1,16 @@
+from socket import *
+import sys
+serverName = sys.argv[1]
+serverPort = int(sys.argv[2])
+fileName = sys.argv[3]
+request = "GET "+str(fileName)+" HTTP/1.1"
+
+clientSocket = socket(AF_INET, SOCK_STREAM)
+clientSocket.connect((serverName, serverPort))
+clientSocket.send(request.encode())
+returnFromSever = clientSocket.recv(4096)
+
+while(len(returnFromSever)>0):
+    print(returnFromSever.decode())
+    returnFromSever = clientSocket.recv(4096)
+clientSocket.close()
